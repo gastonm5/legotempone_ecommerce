@@ -22,7 +22,7 @@ const Productos = () => {
           initQuantities(parsed);
           setLoading(false);
         } else {
-          const res = await axios.get("http://localhost:5000/api/products");
+          const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
           const productsFromAPI = res.data.products;
           setProducts(productsFromAPI);
           localStorage.setItem("products", JSON.stringify(productsFromAPI));

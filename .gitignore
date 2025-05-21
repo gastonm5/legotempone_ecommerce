@@ -26,3 +26,4 @@ build
 
 # Variables de Entorno
 .env
+.env.*

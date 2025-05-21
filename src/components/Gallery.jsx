@@ -8,6 +8,8 @@ const Gallery = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantities, setQuantities] = useState({});
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const stored = localStorage.getItem("products");
 
@@ -19,9 +21,9 @@ const Gallery = () => {
       setQuantities(initialQuantities);
     } else {
       axios
-        .get("http://localhost:5000/api/products")
+        .get(`${API_URL}/api/products`)
         .then((res) => {
-          const { source, products } = res.data;
+          const { products } = res.data;
           setProducts(products);
           localStorage.setItem("products", JSON.stringify(products));
           const initialQuantities = {};
@@ -32,7 +34,7 @@ const Gallery = () => {
           console.error("Error al obtener productos", err);
         });
     }
-  }, []);
+  }, [API_URL]);
 
   const increment = (id) => {
     setQuantities((prev) => ({
@@ -66,57 +68,57 @@ const Gallery = () => {
 
   return (
     <>
-    <div className="galleryTitle">
-      <h2>Mira todos los productos que tenemos para vos ♡</h2>
-    </div>
-    <div className="gallery-container">
-      {products.map((product) => {
-        const quantity = quantities[product.id] || 1;
-        const totalPrice = product.price * quantity;
+      <div className="galleryTitle">
+        <h2>Mira todos los productos que tenemos para vos ♡</h2>
+      </div>
+      <div className="gallery-container">
+        {products.map((product) => {
+          const quantity = quantities[product.id] || 1;
+          const totalPrice = product.price * quantity;
 
-        return (     
-          <div className="product-card" key={product.id}>
-            <img
-              src={product.img}
-              alt={product.description}
-              className="product-image"
-            />
-            <div className="product-details">
-              <h3 className="product-title">{product.description}</h3>
-              <p className="product-price">${totalPrice}</p>
+          return (
+            <div className="product-card" key={product.id}>
+              <img
+                src={product.img}
+                alt={product.description}
+                className="product-image"
+              />
+              <div className="product-details">
+                <h3 className="product-title">{product.description}</h3>
+                <p className="product-price">${totalPrice}</p>
 
-              <div className="quantity-controls">
-                <button className='addButton' onClick={() => decrement(product.id)}>-</button>
-                <input
-                  type="number"
-                  value={quantity}
-                  min="1"
-                  readOnly
-                />
-                <button className='substractButton' onClick={() => increment(product.id)}>+</button>
+                <div className="quantity-controls">
+                  <button className='addButton' onClick={() => decrement(product.id)}>-</button>
+                  <input
+                    type="number"
+                    value={quantity}
+                    min="1"
+                    readOnly
+                  />
+                  <button className='substractButton' onClick={() => increment(product.id)}>+</button>
+                </div>
+
+                <button className='css-button-sliding-to-bottom--sky' onClick={() => addToCart(product, quantity)}>
+                  Añadir al carrito
+                </button>
               </div>
-
-              <button className='css-button-sliding-to-bottom--sky' onClick={() => addToCart(product, quantity)}>
-                Añadir al carrito
-              </button>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
 
-      {isAdded && selectedProduct && (
-        <div className="added-notification">
-          <img src={selectedProduct.img} alt={selectedProduct.description} />
-          <div>
-            <p>{selectedProduct.description}</p>
-            <p>Cantidad: {selectedProduct.quantity}</p>
-            <p>Total: ${selectedProduct.quantity * selectedProduct.price}</p>
+        {isAdded && selectedProduct && (
+          <div className="added-notification">
+            <img src={selectedProduct.img} alt={selectedProduct.description} />
+            <div>
+              <p>{selectedProduct.description}</p>
+              <p>Cantidad: {selectedProduct.quantity}</p>
+              <p>Total: ${selectedProduct.quantity * selectedProduct.price}</p>
+            </div>
+            <button onClick={() => setIsAdded(false)}>Cerrar</button>
+            <button onClick={() => window.location.href = "/cart"}>Ir al carrito</button>
           </div>
-          <button onClick={() => setIsAdded(false)}>Cerrar</button>
-          <button onClick={() => window.location.href = "/cart"}>Ir al carrito</button>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
     </>
   );
 };
