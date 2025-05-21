@@ -5,7 +5,7 @@ body{
   font-family: 'Harmonia Sans', sans-serif;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Harmonia Sans';
   src: url('/assets/fonts/HarmoniaSans/HarmoniaSans-Regular.woff2') format('woff2'),
        url('/assets/fonts/HarmoniaSans/HarmoniaSans-Regular.woff') format('woff');
@@ -21,5 +21,5 @@ body{
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-}
+} */
 
