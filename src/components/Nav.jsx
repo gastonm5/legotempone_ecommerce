@@ -95,8 +95,8 @@ const Navbar = ({ isFixed = true, darkMode = false }) => {
         <ul className={`nav-links ${isMenuOpen ? "open" : ""}`}>
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/products">Productos</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/contacto">Contacto</Link></li>
+          <li><Link to="/">About</Link></li>
+          <li><Link to="/">Contacto</Link></li>
         </ul>
 
         {/* iconos de desktop*/}

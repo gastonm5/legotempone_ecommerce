@@ -122,8 +122,8 @@ const Productos = () => {
             <p>Cantidad: {selectedProduct.quantity}</p>
             <p>Total: ${selectedProduct.quantity * selectedProduct.price}</p>
           </div>
-          <button onClick={() => setIsAdded(false)}>Cerrar</button>
-          <button onClick={() => window.location.href = "/cart"}>Ir al carrito</button>
+          <button className="css-button-3d--sand" onClick={() => setIsAdded(false)}>Cerrar</button>
+          <button className="css-button-3d--sand" onClick={() => window.location.href = "/cart"}>Ir al carrito</button>
         </div>
       )}
 

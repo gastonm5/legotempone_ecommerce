@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import "../../src/styles/gallery.css";
+
+
 
 const Gallery = () => {
   const [products, setProducts] = useState([]);
   const [isAdded, setIsAdded] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantities, setQuantities] = useState({});
+  const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -115,7 +119,7 @@ const Gallery = () => {
               <p>Total: ${selectedProduct.quantity * selectedProduct.price}</p>
             </div>
             <button onClick={() => setIsAdded(false)}>Cerrar</button>
-            <button onClick={() => window.location.href = "/cart"}>Ir al carrito</button>
+            <button onClick={() => navigate("/cart")}>Ir al carrito</button>
           </div>
         )}
       </div>
