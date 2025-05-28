@@ -118,8 +118,20 @@ const Gallery = () => {
               <p>Cantidad: {selectedProduct.quantity}</p>
               <p>Total: ${selectedProduct.quantity * selectedProduct.price}</p>
             </div>
-            <button onClick={() => setIsAdded(false)}>Cerrar</button>
-            <button onClick={() => navigate("/cart")}>Ir al carrito</button>
+            <button
+              style={{
+                minWidth: '78px',
+                height: '45px'
+              }}
+              className='css-button-sliding-to-bottom--sky'
+              onClick={() => setIsAdded(false)}>Cerrar</button>
+            <button
+              style={{
+                minWidth: '78px',
+                height: '45px'
+              }}
+              className='css-button-sliding-to-bottom--sky'
+              onClick={() => navigate("/cart")}>Ir al carrito</button>
           </div>
         )}
       </div>

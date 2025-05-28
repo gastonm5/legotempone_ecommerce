@@ -3,6 +3,8 @@ import axios from "axios";
 import Navbar from "../Nav";
 import Footer from "../Footer";
 import '../../styles/products.css';
+import '../../styles/productDetail.css';
+import { Link } from "react-router-dom";
 
 const Productos = () => {
   const [products, setProducts] = useState([]);
@@ -11,6 +13,15 @@ const Productos = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [fakeLoading, setFakeLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFakeLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -73,6 +84,19 @@ const Productos = () => {
     setIsAdded(true);
   };
 
+  if (fakeLoading) {
+    return (
+      <>
+        <Navbar isFixed={false} darkMode={true} />
+        <div className="spinner-container">
+          <div className="spinner"></div>
+          <p className="loading-text">Cargando productos, por favor espere...</p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
   if (loading) return <p className="loading-message">Cargando productos...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
@@ -108,6 +132,9 @@ const Productos = () => {
                 >
                   Añadir al carrito
                 </button>
+                <Link to={`/product/${product.id}`}>
+                  <button className="css-button-sliding-to-bottom--sky">Ver detalle</button>
+                </Link>
               </div>
             </div>
           );
