@@ -5,6 +5,7 @@ import Footer from "../Footer";
 import '../../styles/products.css';
 import '../../styles/productDetail.css';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Productos = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,7 @@ const Productos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [fakeLoading, setFakeLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -150,10 +152,9 @@ const Productos = () => {
             <p>Total: ${selectedProduct.quantity * selectedProduct.price}</p>
           </div>
           <button className="css-button-3d--sand" onClick={() => setIsAdded(false)}>Cerrar</button>
-          <button className="css-button-3d--sand" onClick={() => window.location.href = "/cart"}>Ir al carrito</button>
+          <button className="css-button-3d--sand" onClick={() => navigate("/cart")}>Ir al carrito</button>
         </div>
       )}
-
       <Footer />
     </>
   );

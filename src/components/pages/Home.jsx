@@ -29,6 +29,7 @@ const Home = () => {
       <li>Me falta crear las paginas About y Contacto</li>
       <li>Me falta cambiar y/o agregar algunos estilos</li>
       <li>El footer por el momento no tiene interaccion</li>
+      <li>Falta corregir spaninglish jaja</li>
     </ul>
   );
 
