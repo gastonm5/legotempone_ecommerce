@@ -2,8 +2,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../Nav";
-import Footer from "../Footer";
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -42,7 +40,6 @@ const ProductDetail = () => {
 
     return (
         <>
-            <Navbar isFixed={false} darkMode={true} />
             <div className="product-detail-container">
                 <img src={product.img} alt={product.description} />
                 <h2>{product.description}</h2>
@@ -71,7 +68,6 @@ const ProductDetail = () => {
                     Añadir al carrito
                 </button>
             </div>
-            <Footer />
         </>
     );
 };

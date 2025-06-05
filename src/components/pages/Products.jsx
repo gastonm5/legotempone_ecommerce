@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../Nav";
-import Footer from "../Footer";
-import '../../styles/products.css';
-import '../../styles/productDetail.css';
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import "../../styles/products.css";
+import "../../styles/productDetail.css";
+import { Link, useNavigate } from "react-router-dom";
+import localProducts from "../../../backend/data/products";
 
 const Productos = () => {
   const [products, setProducts] = useState([]);
@@ -18,10 +16,7 @@ const Productos = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setFakeLoading(false);
-    }, 3000);
-
+    const timer = setTimeout(() => setFakeLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -29,20 +24,51 @@ const Productos = () => {
     const fetchProducts = async () => {
       try {
         const stored = localStorage.getItem("products");
-        if (stored) {
-          const parsed = JSON.parse(stored);
+        let parsed = null;
+
+        // 1. primero pruebo buscar los productos en localstorage porque cuando cargeu la pagina 
+        // por primera vez me deberia haber cargado los productos en el gallery y se deberian haber guardado
+        // en el localstorage
+        try {
+          parsed = stored ? JSON.parse(stored) : null;
+          if (!Array.isArray(parsed) || parsed.length === 0) {
+            parsed = null;
+          }
+        } catch {
+          console.warn("no se puede leer correctamente LOCALSTORAGE, entonces lo borro para limpiar datos");
+          localStorage.removeItem("products");
+          parsed = null;
+        }
+
+        if (parsed) {
+          console.log("✅ Productos cargados desde localStorage");
           setProducts(parsed);
           initQuantities(parsed);
           setLoading(false);
-        } else {
-          const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
-          const productsFromAPI = res.data.products;
+          return;
+        }
+
+        // 2. si no encontro los productos en el localstorage porq es accedio a /products directamente
+        // o porque se borro el localstorga de manera manual.. .entonces ahi si ejecuto consulta a la base de datos
+        console.log("🌐 Buscando productos en mongodb...");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
+        const productsFromAPI = res.data.products;
+        if (productsFromAPI && productsFromAPI.length > 0) {
+          console.log(`✅ Productos cargados desde ${import.meta.env.VITE_API_URL}`);
           setProducts(productsFromAPI);
           localStorage.setItem("products", JSON.stringify(productsFromAPI));
           initQuantities(productsFromAPI);
           setLoading(false);
+          return;
         }
+        // 3. si hubo un problema con la conexion al a base de datos entonces uso mi fallback local
+        console.warn("📦 Usando fallback local (ni localStorage ni API disponibles)");
+        setProducts(localProducts);
+        initQuantities(localProducts);
+        setLoading(false);
+
       } catch (err) {
+        console.error("❌ Error al obtener productos:", err);
         setError("Error al obtener productos");
         setLoading(false);
       }
@@ -72,7 +98,7 @@ const Productos = () => {
   };
 
   const addToCart = (product, quantity) => {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const existing = cart.find(item => item.id === product.id);
 
     if (existing) {
@@ -81,30 +107,24 @@ const Productos = () => {
       cart.push({ ...product, quantity });
     }
 
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
     setSelectedProduct({ ...product, quantity });
     setIsAdded(true);
   };
 
-  if (fakeLoading) {
+  if (loading || fakeLoading) {
     return (
-      <>
-        <Navbar isFixed={false} darkMode={true} />
-        <div className="spinner-container">
-          <div className="spinner"></div>
-          <p className="loading-text">Cargando productos, por favor espere...</p>
-        </div>
-        <Footer />
-      </>
+      <div className="spinner-container">
+        <div className="spinner"></div>
+        <p className="loading-text">Cargando productos, por favor espere...</p>
+      </div>
     );
   }
 
-  if (loading) return <p className="loading-message">Cargando productos...</p>;
   if (error) return <p className="error-message">{error}</p>;
 
   return (
     <>
-      <Navbar isFixed={false} darkMode={true} />
       <h3 className="products-title">TODOS NUESTROS PRODUCTOS ♥</h3>
       <div className="products-container">
         {products.map((product) => {
@@ -155,7 +175,6 @@ const Productos = () => {
           <button className="css-button-3d--sand" onClick={() => navigate("/cart")}>Ir al carrito</button>
         </div>
       )}
-      <Footer />
     </>
   );
 };

@@ -10,6 +10,9 @@ const Navbar = ({ isFixed = true, darkMode = false }) => {
   const [showSearchInputDesktop, setShowSearchInputDesktop] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const handleNavLinkClick = () => {
+    setIsMenuOpen(false);
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -93,10 +96,10 @@ const Navbar = ({ isFixed = true, darkMode = false }) => {
 
         {/* links de navegacion */}
         <ul className={`nav-links ${isMenuOpen ? "open" : ""}`}>
-          <li><Link to="/">Inicio</Link></li>
-          <li><Link to="/products">Productos</Link></li>
-          <li><Link to="/">About</Link></li>
-          <li><Link to="/">Contacto</Link></li>
+          <li><Link to="/" onClick={handleNavLinkClick}>Inicio</Link></li>
+          <li><Link to="/products" onClick={handleNavLinkClick}>Productos</Link></li>
+          <li><Link to="/" onClick={handleNavLinkClick}>About</Link></li>
+          <li><Link to="/" onClick={handleNavLinkClick}>Contacto</Link></li>
         </ul>
 
         {/* iconos de desktop*/}

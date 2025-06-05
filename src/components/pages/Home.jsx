@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Nav from '../../components/Nav';
 import Header from '../../components/Header';
 import Main from '../../components/Main';
 import Gallery from '../../components/Gallery';
-import Footer from '../../components/Footer';
 import Popup from '../../components/Popup'; 
 
 const Home = () => {
@@ -41,11 +39,9 @@ const Home = () => {
           onClose={() => setShowPopup(false)} 
         />
       }
-      <Nav />
       <Header />
       <Main />
       <Gallery />
-      <Footer />
     </>
   );
 };

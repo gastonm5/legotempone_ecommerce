@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { useAuth } from '../AuthContext';
-import Navbar from '../Nav';
-import Footer from '../Footer';
 
 const Login = () => {
     const { login } = useAuth();
@@ -15,7 +13,6 @@ const Login = () => {
 
     return (
         <>
-            <Navbar isFixed={false} darkMode={true} />
             <div className="login-container">
                 <h2>Iniciar sesión</h2>
                 <form onSubmit={handleSubmit}>
@@ -33,8 +30,8 @@ const Login = () => {
                     />
                     <button type="submit">Ingresar</button>
                     <h4>DESPUES HAGO ALGO MAS COMPLETO, SOLO ESTOY CUMPLIENDO EL REQUISITO</h4>
+                    <h4>usuario: admin - contraseña: 1234</h4>
                 </form>
-                <Footer />
             </div>
         </>
     );

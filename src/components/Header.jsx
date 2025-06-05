@@ -10,7 +10,6 @@ const images = [
 
 const Header = () => {
   const [current, setCurrent] = useState(0);
-  const timeoutRef = useRef(null);
 
   const nextSlide = () => {
     setCurrent((prev) => (prev + 1) % images.length);
@@ -21,12 +20,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-  const timeout = setInterval(() => {
-    nextSlide();
-  }, 5000); 
+    const timeout = setInterval(() => {
+      nextSlide();
+    }, 5000);
 
-  return () => clearInterval(timeout);
-}, [current]);
+    return () => clearInterval(timeout);
+  }, [current]);
 
   return (
     <header className="carousel-container">

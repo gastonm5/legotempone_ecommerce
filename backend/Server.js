@@ -42,16 +42,20 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
-const allowedOrigins = ['https://ecommerce-legotempone.onrender.com'];
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://ecommerce-legotempone.onrender.com' 
+];
+
 
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // permite herramientas tipo Postman o curl
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'El CORS policy no permite este origen: ' + origin;
-      return callback(new Error(msg), false);
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS policy: acceso denegado para origen ${origin}`));
     }
-    return callback(null, true);
   }
 }));
 

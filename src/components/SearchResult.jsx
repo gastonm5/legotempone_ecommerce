@@ -1,7 +1,5 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Navbar from "./Nav";
-import Footer from "./Footer";
 
 const SearchResults = () => {
   const location = useLocation();
@@ -43,7 +41,6 @@ const SearchResults = () => {
 
   return (
     <>
-      <Navbar isFixed={false} darkMode={true} />
       <div>
         <h2>Resultados para: "{query}"</h2>
         {results.length === 0 ? (
@@ -84,7 +81,6 @@ const SearchResults = () => {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 };

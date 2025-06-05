@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import "../../src/styles/cart.css"; 
-import Navbar from './Nav'
-import Footer from './Footer'
+import "../../src/styles/cart.css";
 import { FaTrash } from "react-icons/fa";
 
 const Cart = () => {
@@ -24,8 +22,6 @@ const Cart = () => {
 
   return (
     <>
-      <Navbar isFixed={false} darkMode={true} />
-
       <div className="cart-container">
         <h2>🛒 Tu carrito de compras</h2>
 
@@ -54,8 +50,6 @@ const Cart = () => {
           </div>
         )}
       </div>
-
-      <Footer />
     </>
   );
 };
