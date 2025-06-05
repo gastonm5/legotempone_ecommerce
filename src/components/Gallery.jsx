@@ -11,6 +11,7 @@ const Gallery = () => {
   const [quantities, setQuantities] = useState({});
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
+  console.log("variable api url es:", API_URL);
 
   useEffect(() => {
     const loadProductsFromLocalStorage = () => {
