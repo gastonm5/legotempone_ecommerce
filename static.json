@@ -1,11 +1,5 @@
 {
   "routes": [
-    { "src": "^/login$", "dest": "/index.html" },
-    { "src": "^/products$", "dest": "/index.html" },
-    { "src": "^/product/.*$", "dest": "/index.html" },
-    { "src": "^/admin$", "dest": "/index.html" },
-    { "src": "^/cart$", "dest": "/index.html" },
-    { "src": "^/search$", "dest": "/index.html" },
-    { "src": "^/$", "dest": "/index.html" }
+    { "src": "^/(.*)$", "dest": "/index.html" }
   ]
 }
